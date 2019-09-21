@@ -74,6 +74,7 @@ class Board extends React.Component {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winner = calculateWinner(current.squares);
+        const boardFull = isBoardFull(current.squares);
 
         const moves = history.map((step, move) => {
           const desc = move ?
@@ -96,6 +97,8 @@ class Board extends React.Component {
         let status;
         if (winner) {
           status = 'Winner: ' + winner;
+        } else if (boardFull) {
+          status = 'It\'s a draw!';
         } else {
           status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
@@ -177,4 +180,15 @@ class Board extends React.Component {
         }
       }
       return null;
+    }
+
+    function isBoardFull(squares) {
+      let filledSquaresCount = 0;
+      squares.forEach((value) => {
+        if (value != null) {
+          filledSquaresCount += 1;
+        }
+      });
+
+      return filledSquaresCount === 9;
     }
